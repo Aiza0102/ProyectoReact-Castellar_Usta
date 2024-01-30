@@ -3,14 +3,14 @@ import { FaFacebook, FaInstagram, FaTwitter, FaWhatsapp, FaHeart } from 'react-i
 const Footer = () => {
   return (
     <footer className="bg-dark text-light py-5">
-      <div className="container">
+      <div className="container2">
         <div className="row">
           <div className="col-md-6 text-center text-md-start">
             <p className="mb-0 h6">
-              <span className="font-weight-bold"> Isaac Castellar - Aiza | 2023 </span>💻<br />
+            <span className="font-weight-bold">Isaac Castellar - Aiza | 2023 </span>💻<br />
             </p>
             <p className="mb-0 h6">
-              Todos los derechos reservados ©️
+            Todos los derechos reservados ©️
             </p><br />
             <p className="mb-0 h6">
               Diseñado con <FaHeart className="text-danger" /> para <a

@@ -1,44 +1,65 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { animateScroll as scroll } from 'react-scroll';
+import Card from '../js/card';
+import { Link } from 'react-router-dom';
 
-const ItemListContainer = ({ greeting }) => {
-useEffect(() => {
-    const itemContainer = document.querySelector('.item-list-container');
-    const handleScroll = () => {
-    if (itemContainer && window.scrollY > itemContainer.offsetTop - window.innerHeight + 50) {
-        itemContainer.classList.add('show');
-    }
-};
+const ItemListContainer = ({ greeting, category }) => {
+  const [products, setProducts] = useState([]);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-    window.removeEventListener('scroll', handleScroll);
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const response = await fetch('https://fakestoreapi.com/products');
+        const data = await response.json();
+
+        const filteredProducts = data.filter((product) =>
+          category ? product.category.toLowerCase() === category.toLowerCase() : true
+        );
+
+        setProducts(filteredProducts);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
     };
-}, []);
 
-const scrollToTop = () => {
+    getProducts();
+  }, [category]);
+
+  const scrollToTop = () => {
     scroll.scrollToTop({
-    duration: 500,
-    smooth: 'easeInOutQuad',
+      duration: 500,
+      smooth: 'easeInOutQuad',
     });
-};
+  };
 
-return (
+  return (
     <div className="item-list-container">
-    <Container>
+      <Container>
         <Row>
-        <Col md={{ span: 8, offset: 2 }} className="text-center">
+          <Col md={{ span: 8, offset: 2 }} className="text-center">
             <h2>{greeting}</h2>
             <p>Explora nuestra colección exclusiva y descubre ofertas increíbles.</p>
             <Button variant="primary" size="lg" className="show" onClick={scrollToTop}>
-            Ver Productos
+              Ver Productos
             </Button>
-        </Col>
+          </Col>
         </Row>
-    </Container>
+        <Row className="mt-4">
+          {products.map((product) => (
+            <Col key={product.id} lg={4} md={6} sm={12}>
+              <Card
+                id={product.id}
+                image={product.image}
+                title={product.title}
+                price={product.price}
+              />
+            </Col>
+          ))}
+        </Row>
+      </Container>
     </div>
-    );
+  );
 };
 
 export default ItemListContainer;

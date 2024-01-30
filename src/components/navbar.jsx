@@ -1,28 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import CartWidget from "./cartwidget";
+import CartWidget from "./CartWidget";
 
-const NavBar = () => {
+const NavBar = ({ setCategory }) => {
 const [scrolling, setScrolling] = useState(false);
 const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-useEffect(() => {
-    const handleScroll = () => {
-        if (window.scrollY > 50) {
-        setScrolling(true);
-        } else {
-        setScrolling(false);
-        }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-    window.removeEventListener("scroll", handleScroll);
-    };
-}, []);
 
 const handleMenuToggle = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
+};
+
+const handleCategoryClick = (category) => {
+    setCategory(category);
+    setMobileMenuOpen(false);
 };
 
 return (
@@ -36,11 +27,10 @@ return (
 
         <nav className="navigation">
             <div className="nav-items">
-            <Link to="/">Inicio</Link>
-            <Link to="/ropa">Ropa</Link>
-            <Link to="/electronicos">Electrónicos</Link>
+            <Link to="/" onClick={() => handleCategoryClick('')}>Inicio</Link>
+            <Link to="/ropa" onClick={() => handleCategoryClick('ropa')}>Ropa</Link>
+            <Link to="/electronicos" onClick={() => handleCategoryClick('electronicos')}>Electrónicos</Link>
             <CartWidget />
-            {/* Agrega más enlaces según sea necesario */}
             </div>
         </nav>
         </div>
