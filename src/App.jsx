@@ -1,32 +1,27 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NavBar from './components/NavBar';
-import ItemListContainer from './components/ItemListContainer';
-import ProductDetail from './components/productdetail';
-import Clothing from './pages/clothing';
-import Electronics from './pages/Electronics';
-import { CartProvider } from './components/cartcontext';
-import Footer from './components/Footer';
+import './styles/index.css';
+import NavBar from './pages/navbar';
+import ContainerCardItems from './components/ContainerCardItems';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import DetailsItem from './components/DetailsItem';
+import { ProviderContextoListCart } from './components/ProviderContextoListCart';
+import Footer from './pages/footer';
 
-const App = () => {
-  const products = [];
-
+function App() {
   return (
-    <Router>
-      <CartProvider>
-        <div>
-          <NavBar />
+    <ProviderContextoListCart>
+      <BrowserRouter>
+        <NavBar />
+        <div style={{ marginTop: '120px' }}></div>
           <Routes>
-            <Route path="/" element={<ItemListContainer greeting="Bienvenido" />} />
-            <Route path="/ropa" element={<Clothing />} />
-            <Route path="/electronicos" element={<Electronics />} />
-            <Route path="/product/:id" element={<ProductDetail products={products} />} />
+            <Route path='/' element={<ContainerCardItems />} />
+            <Route path='/item/:idItem' element={<DetailsItem />} />
+            <Route path='/category/:idCategory' element={<ContainerCardItems />} />
           </Routes>
-          <Footer />
-        </div>
-      </CartProvider>
-    </Router>
+        </BrowserRouter>
+      <Footer />
+    </ProviderContextoListCart>
   );
-};
+}
 
 export default App;
